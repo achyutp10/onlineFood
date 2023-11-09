@@ -13,7 +13,8 @@
                             <p class="text-center">Please fill this form to get yourself onboarded in the foodOnline marketplace.</p>
                             <hr>
                             <div id="restaurant-sets-holder">
-                                <form class="form-fields-set foodbakery-dev-restaurant-form" method="post" action="register-select-package.html">
+                                <form action='{% url "registerUser" %}' class="form-fields-set foodbakery-dev-restaurant-form" method="post" action="register-select-package.html">
+                                  {% csrf_token %}
                                     <ul class="register-add-restaurant-tab-container restaurant-information-tab-container">
                                         <li>
                                             <div class="row">
@@ -23,32 +24,24 @@
                                                             <li>
                                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                                     <div class="field-holder">
-                                                                        <label>First name</label><input type="text" class="foodbakery-dev-req-field" id="foodbakery_restaurant_title_59054637" name="foodbakery_restaurant_title">
+                                                                        <label>First name</label>{{form.first_name}}
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                                     <div class="field-holder">
-                                                                        <label>Last name</label><input type="text" id="foodbakery_restaurant_phone_59054637" name="foodbakery_restaurant_contact_phone">
+                                                                        <label>Last name</label>{{form.last_name}}
+                                                                    </div>
+                                                                </div>
+                                                                
+
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                    <div class="field-holder">
+                                                                        <label>Email Address</label>{{form.email}}
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                                     <div class="field-holder">
-                                                                        <label>Restaurant name </label><input type="text" class="foodbakery-dev-req-field" id="foodbakery_restaurant_title_59054637" name="foodbakery_restaurant_title">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                                    <div class="field-holder">
-                                                                        <label>Restaurant phone</label><input type="text" id="foodbakery_restaurant_phone_59054637" name="foodbakery_restaurant_contact_phone">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                                    <div class="field-holder">
-                                                                        <label>Email Address</label><input type="text" id="foodbakery_restaurant_contact_email_59054637" name="foodbakery_restaurant_contact_email">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                                    <div class="field-holder">
-                                                                        <label>Username</label><input type="text" id="foodbakery_restaurant_contact_email_59054637" name="foodbakery_restaurant_contact_email">
+                                                                        <label>Username</label>{{form.username}}
                                                                     </div>
                                                                 </div>
                                                             </li>
@@ -57,13 +50,13 @@
                                                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                                                     <div class="field-holder">
                                                                         <label>Password</label>
-                                                                        <input type="password" name="foodbakery_restaurant_username" class="foodbakery-dev-username foodbakery-dev-req-field">
+                                                                        {{form.password}}
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                                                     <div class="field-holder">
                                                                         <label>Confirm Password</label>
-                                                                        <input type="password" name="foodbakery_restaurant_user_email" class="foodbakery-dev-user-email foodbakery-dev-req-field">
+                                                                        {{form.confirm_password}}
                                                                     </div>
                                                                 </div>
                                                             </li>
@@ -77,7 +70,7 @@
                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                     <div class="field-holder">
                                                         <div class="payment-holder">
-                                                            <input type="submit" value="Submit" id="btn-next-restaurant-information" class="bgcolor">
+                                                            <input type="submit" value="REGISTER" id="btn-next-restaurant-information" class="bgcolor">
                                                         </div>
                                                     </div>
                                                 </div>
