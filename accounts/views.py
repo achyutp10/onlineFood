@@ -2,7 +2,7 @@ from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from .utils import detectUser 
 
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 
 from vendor.forms import VendorForms
@@ -11,8 +11,24 @@ from .models import User, UserProfile
 
 from .forms import UserForm
 from django.contrib import messages, auth
+from django.core.exceptions import PermissionDenied
 
 # Create your views here.
+
+# Restrict the vendor from accessing the customer page
+def check_role_vendor(user):
+  if user.role == 1:
+    return True
+  else:
+    raise PermissionDenied
+
+
+# Restrict the customer from accessing the vendor page
+def check_role_customer(user):
+  if user.role == 2:
+    return True
+  else:
+    raise PermissionDenied
 
 def registerUser(request):
   if request.user.is_authenticated:
@@ -118,9 +134,11 @@ def myAccount(request):
   return redirect(redirectUrl)
 
 @login_required(login_url='login')
+@user_passes_test(check_role_customer)
 def custDashboard(request):
   return render(request, 'accounts/custDashboard.html')
 
 @login_required(login_url='login')
+@user_passes_test(check_role_vendor)
 def vendorDashboard(request):
   return render(request, 'accounts/vendorDashboard.html')
