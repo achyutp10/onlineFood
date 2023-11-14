@@ -12,10 +12,10 @@ class UserManager(BaseUserManager):
       raise ValueError("Users must have an username")
     
     user = self.model(
-      email = self.normalize_email(email),
-      username = username,
-      first_name = first_name,
-      last_name = last_name,
+      email=self.normalize_email(email),
+      username=username,
+      first_name=first_name,
+      last_name=last_name,
     )
     user.set_password(password)
     user.save(using=self._db)
@@ -37,8 +37,6 @@ class UserManager(BaseUserManager):
     user.save(using=self._db)
     return user
   
-  def get_by_natural_key(self, username):
-    return self.get(username=username)
 
 class User(AbstractBaseUser):
   VENDOR = 1

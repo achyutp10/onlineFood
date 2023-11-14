@@ -1,17 +1,21 @@
 from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 
+
 from vendor.forms import VendorForms
 
 from .models import User, UserProfile
 
 from .forms import UserForm
-from django.contrib import messages
+from django.contrib import messages, auth
 
 # Create your views here.
 
 def registerUser(request):
-  if request.method == 'POST': 
+  if request.user.is_authenticated:
+    messages.warning(request, 'You are already logged in!')
+    return redirect('dashboard')
+  elif request.method == 'POST': 
     form = UserForm(request.POST)
     if form.is_valid():
       # Create user using the form
@@ -43,7 +47,10 @@ def registerUser(request):
   return render(request, 'accounts/registerUser.html', context)
 
 def registerVendor(request):
-  if request.method == 'POST':
+  if request.user.is_authenticated:
+    messages.warning(request, 'You are already logged in!')
+    return redirect('dashboard')
+  elif request.method == 'POST':
     # Store the data and create the user
     form = UserForm(request.POST)
     v_form = VendorForms(request.POST, request.FILES)
@@ -75,3 +82,30 @@ def registerVendor(request):
     'v_form': v_form,
   }
   return render(request, 'accounts/registerVendor.html', context)
+
+def login(request):
+  if request.user.is_authenticated:
+    messages.warning(request, 'You are already logged in!')
+    return redirect('dashboard')
+  elif request.method == 'POST':
+    email = request.POST['email']
+    password = request.POST['password']
+
+    user = auth.authenticate(email=email, password=password)
+    
+    if user is not None:
+      auth.login(request, user)
+      messages.success(request, 'You are now logged in.')
+      return redirect('dashboard')
+    else:
+      messages.error(request, 'Invalid Login Credentials')
+      return redirect('login')
+  return render(request, 'accounts/login.html')
+
+def logout(request):
+  auth.logout(request)
+  messages.info(request, 'You are logged out.')
+  return redirect('login')
+
+def dashboard(request):
+  return render(request, 'accounts/dashboard.html')
